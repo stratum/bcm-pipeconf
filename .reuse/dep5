@@ -1,0 +1,9 @@
+Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+Upstream-Name: Stratum BCM Pipeconf
+Upstream-Contact: Stratum dev <stratum-dev@lists.stratumproject.org>
+Source: https://github.com/stratum/bcm-pipeconf
+
+Files: README.md bcm-netcfg.json src/main/resources/**/*
+Copyright: 2020 Open Networking Foundation
+License: Apache-2.0
+
