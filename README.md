@@ -1,6 +1,8 @@
 Stratum BCM Pipeconf
 ----
 
+[![<Stratum>](https://circleci.com/gh/stratum/bcm-pipeconf.svg?style=svg)](https://circleci.com/gh/stratum/bcm-pipeconf)
+
 This repository contains ONOS pipeconf code and script for Stratum BCM pipeline.
 
 ## Requirements
