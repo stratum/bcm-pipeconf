@@ -8,12 +8,12 @@ jobs:
     machine:
       image: ubuntu-1604:201903-01
     environment:
-      STRATUM_ROOT: /stratum
+      STRATUM_ROOT: /tmp/stratum
     steps:
       - checkout
       - run:
           name: Pull Stratum
-          command: git clone https://github.com/stratum/stratum /stratum
+          command: git clone https://github.com/stratum/stratum /tmp/stratum
       - run:
           name: Pull Docker images
           command: make pull-images
