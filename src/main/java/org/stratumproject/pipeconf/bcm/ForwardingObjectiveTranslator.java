@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package org.onosproject.stratum.pipeconf;
+package org.stratumproject.pipeconf.bcm;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
@@ -27,8 +27,6 @@ import java.util.stream.Collectors;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static java.lang.String.format;
 import static org.onosproject.net.group.DefaultGroupBucket.createCloneGroupBucket;
-import static org.onosproject.stratum.pipeconf.BcmPipelineConstants.*;
-import static org.onosproject.stratum.pipeconf.BcmPipelineConstants.PORT;
 
 /**
  * The translator that translates ForwardingObjective to
@@ -168,7 +166,7 @@ public class ForwardingObjectiveTranslator
         checkNotNull(ipDstCriterion);
         TrafficSelector selector = DefaultTrafficSelector.builder()
             .matchIPDst(ipDstCriterion.ip())
-            .matchPi(PiCriterion.builder().matchExact(LOCAL_METADATA_VRF_ID, DEFAULT_VRF_ID).build())
+            .matchPi(PiCriterion.builder().matchExact(BcmPipelineConstants.LOCAL_METADATA_VRF_ID, BcmPipelineConstants.DEFAULT_VRF_ID).build())
             .build();
 
         TrafficTreatment treatment = actionProfileGroupTreatmentFromNextId(obj.nextId());
@@ -176,7 +174,7 @@ public class ForwardingObjectiveTranslator
         // l3_fwd_table
         resultBuilder.addFlowRule(flowRule(
                 obj,
-                L3_FWD_TABLE,
+                BcmPipelineConstants.L3_FWD_TABLE,
                 selector,
                 treatment
         ));
@@ -200,7 +198,7 @@ public class ForwardingObjectiveTranslator
                 .build();
         resultBuilder.addFlowRule(flowRule(
                 obj,
-                L3_MPLS_TABLE,
+                BcmPipelineConstants.L3_MPLS_TABLE,
                 selector,
                 treatment
         ));
@@ -235,8 +233,8 @@ public class ForwardingObjectiveTranslator
             if (obj.treatment().clearedDeferred()) {
                 // Send to CPU
                 puntAction = PiAction.builder()
-                        .withId(PUNT_SET_QUEUE_AND_SEND_TO_CPU)
-                        .withParameter(DEFAULT_QUEUE_ID)
+                        .withId(BcmPipelineConstants.PUNT_SET_QUEUE_AND_SEND_TO_CPU)
+                        .withParameter(BcmPipelineConstants.DEFAULT_QUEUE_ID)
                         .build();
             } else {
                 // Action is SET_CLONE_SESSION_ID
@@ -251,15 +249,15 @@ public class ForwardingObjectiveTranslator
 
                 // Clone to CPU
                 puntAction = PiAction.builder()
-                        .withId(PUNT_SET_QUEUE_AND_CLONE_TO_CPU)
-                        .withParameter(DEFAULT_QUEUE_ID)
+                        .withId(BcmPipelineConstants.PUNT_SET_QUEUE_AND_CLONE_TO_CPU)
+                        .withParameter(BcmPipelineConstants.DEFAULT_QUEUE_ID)
                         .build();
             }
         } else {
             // Set egress port
             puntAction = PiAction.builder()
-                    .withId(PUNT_SET_EGRESS_PORT)
-                    .withParameter(new PiActionParam(PORT, outPort.toLong()))
+                    .withId(BcmPipelineConstants.PUNT_SET_EGRESS_PORT)
+                    .withParameter(new PiActionParam(BcmPipelineConstants.PORT, outPort.toLong()))
                     .build();
         }
 

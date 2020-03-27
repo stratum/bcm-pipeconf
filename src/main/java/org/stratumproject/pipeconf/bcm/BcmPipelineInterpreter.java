@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package org.onosproject.stratum.pipeconf;
+package org.stratumproject.pipeconf.bcm;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
@@ -45,8 +45,7 @@ import static org.onosproject.net.flow.instructions.Instruction.Type.OUTPUT;
 import static org.onosproject.net.flow.instructions.L2ModificationInstruction.L2SubType.*;
 import static org.onosproject.net.flow.instructions.L2ModificationInstruction.L2SubType.MPLS_LABEL;
 import static org.onosproject.net.pi.model.PiPacketOperationType.PACKET_OUT;
-import static org.onosproject.stratum.pipeconf.BcmPipelineConstants.*;
-import static org.onosproject.stratum.pipeconf.BcmPipelineUtils.l2Instruction;
+import static org.stratumproject.pipeconf.bcm.BcmPipelineUtils.l2Instruction;
 
 /**
  * The pipeline interpreter of BCM pipeline.
@@ -56,18 +55,18 @@ public class BcmPipelineInterpreter extends AbstractHandlerBehaviour implements 
     private static final Logger log = LoggerFactory.getLogger(BcmPipelineInterpreter.class);
     private static final ImmutableMap<Criterion.Type, PiMatchFieldId> CRITERION_MAP =
             ImmutableMap.<Criterion.Type, PiMatchFieldId>builder()
-                    .put(Criterion.Type.IN_PORT, STANDARD_METADATA_INGRESS_PORT)
-                    .put(Criterion.Type.IN_PHY_PORT, STANDARD_METADATA_INGRESS_PORT)
-                    .put(Criterion.Type.ACTSET_OUTPUT, STANDARD_METADATA_EGRESS_SPEC)
-                    .put(Criterion.Type.ETH_TYPE, HDR_ETHERNET_ETHER_TYPE)
-                    .put(Criterion.Type.IPV4_SRC, HDR_IPV4_BASE_SRC_ADDR)
-                    .put(Criterion.Type.IPV4_DST, HDR_IPV4_BASE_DST_ADDR)
-                    .put(Criterion.Type.IP_PROTO, HDR_IPV4_BASE_PROTOCOL)
-                    .put(Criterion.Type.ICMPV4_CODE, LOCAL_METADATA_ICMP_CODE)
-                    .put(Criterion.Type.VLAN_VID, HDR_VLAN_TAG_VID)
-                    .put(Criterion.Type.VLAN_PCP, HDR_VLAN_TAG_PCP)
-                    .put(Criterion.Type.ETH_DST, HDR_ETHERNET_DST_ADDR)
-                    .put(Criterion.Type.MPLS_LABEL, HDR_MPLS_LABEL)
+                    .put(Criterion.Type.IN_PORT, BcmPipelineConstants.STANDARD_METADATA_INGRESS_PORT)
+                    .put(Criterion.Type.IN_PHY_PORT, BcmPipelineConstants.STANDARD_METADATA_INGRESS_PORT)
+                    .put(Criterion.Type.ACTSET_OUTPUT, BcmPipelineConstants.STANDARD_METADATA_EGRESS_SPEC)
+                    .put(Criterion.Type.ETH_TYPE, BcmPipelineConstants.HDR_ETHERNET_ETHER_TYPE)
+                    .put(Criterion.Type.IPV4_SRC, BcmPipelineConstants.HDR_IPV4_BASE_SRC_ADDR)
+                    .put(Criterion.Type.IPV4_DST, BcmPipelineConstants.HDR_IPV4_BASE_DST_ADDR)
+                    .put(Criterion.Type.IP_PROTO, BcmPipelineConstants.HDR_IPV4_BASE_PROTOCOL)
+                    .put(Criterion.Type.ICMPV4_CODE, BcmPipelineConstants.LOCAL_METADATA_ICMP_CODE)
+                    .put(Criterion.Type.VLAN_VID, BcmPipelineConstants.HDR_VLAN_TAG_VID)
+                    .put(Criterion.Type.VLAN_PCP, BcmPipelineConstants.HDR_VLAN_TAG_PCP)
+                    .put(Criterion.Type.ETH_DST, BcmPipelineConstants.HDR_ETHERNET_DST_ADDR)
+                    .put(Criterion.Type.MPLS_LABEL, BcmPipelineConstants.HDR_MPLS_LABEL)
             .build();
     private BcmPipelineCapabilities capabilities;
     private DeviceService deviceService;
@@ -113,35 +112,35 @@ public class BcmPipelineInterpreter extends AbstractHandlerBehaviour implements 
         ModMplsLabelInstruction mplsLabel =
                 (ModMplsLabelInstruction) l2Instruction(treatment, MPLS_LABEL);
 
-        if (piTableId.equals(MY_STATION_TABLE)) {
-            return PiAction.builder().withId(SET_L3_ADMIT).build();
+        if (piTableId.equals(BcmPipelineConstants.MY_STATION_TABLE)) {
+            return PiAction.builder().withId(BcmPipelineConstants.SET_L3_ADMIT).build();
         }
 
-        if (piTableId.equals(L2_UNICAST_TABLE)) {
+        if (piTableId.equals(BcmPipelineConstants.L2_UNICAST_TABLE)) {
             checkNotNull(outPort);
-            PiActionParam param = new PiActionParam(PORT, outPort.toLong());
-            return PiAction.builder().withId(L2_FWD_SET_EGRESS_PORT)
+            PiActionParam param = new PiActionParam(BcmPipelineConstants.PORT, outPort.toLong());
+            return PiAction.builder().withId(BcmPipelineConstants.L2_FWD_SET_EGRESS_PORT)
                     .withParameter(param)
                     .build();
         }
 
-        if (piTableId.equals(L3_FWD_TABLE)) {
+        if (piTableId.equals(BcmPipelineConstants.L3_FWD_TABLE)) {
             checkNotNull(outPort);
             checkNotNull(ethSrc);
             checkNotNull(ethDst);
 
             PiAction.Builder actionBuilder = PiAction.builder();
-            actionBuilder.withParameter(new PiActionParam(PORT, outPort.toLong()));
-            actionBuilder.withParameter(new PiActionParam(SMAC, ethSrc.mac().toBytes()));
-            actionBuilder.withParameter(new PiActionParam(DMAC, ethDst.mac().toBytes()));
+            actionBuilder.withParameter(new PiActionParam(BcmPipelineConstants.PORT, outPort.toLong()));
+            actionBuilder.withParameter(new PiActionParam(BcmPipelineConstants.SMAC, ethSrc.mac().toBytes()));
+            actionBuilder.withParameter(new PiActionParam(BcmPipelineConstants.DMAC, ethDst.mac().toBytes()));
 
             // encap_mpls(PortNum port, EthernetAddress smac, EthernetAddress dmac, bit<20> mpls_label, bit<8> mpls_ttl)
             if (mplsLabel != null) {
                 actionBuilder.withParameter(new PiActionParam(BcmPipelineConstants.MPLS_LABEL, mplsLabel.label().toInt()));
-                actionBuilder.withParameter(DEFATUL_MPLS_TTL);
+                actionBuilder.withParameter(BcmPipelineConstants.DEFATUL_MPLS_TTL);
 
                 return actionBuilder
-                    .withId(L3_FWD_ENCAP_MPLS)
+                    .withId(BcmPipelineConstants.L3_FWD_ENCAP_MPLS)
                     .build();
             }
 
@@ -150,32 +149,32 @@ public class BcmPipelineInterpreter extends AbstractHandlerBehaviour implements 
                     (ModVlanIdInstruction) l2Instruction(treatment, VLAN_ID);
             checkNotNull(vlanId);
 
-            actionBuilder.withParameter(new PiActionParam(DST_VLAN, vlanId.vlanId().toShort()));
+            actionBuilder.withParameter(new PiActionParam(BcmPipelineConstants.DST_VLAN, vlanId.vlanId().toShort()));
             return actionBuilder
-                .withId(L3_FWD_SET_NEXTHOP)
+                .withId(BcmPipelineConstants.L3_FWD_SET_NEXTHOP)
                 .build();
         }
 
-        if (piTableId == L3_MPLS_TABLE) {
+        if (piTableId == BcmPipelineConstants.L3_MPLS_TABLE) {
             checkNotNull(outPort);
             checkNotNull(ethSrc);
             checkNotNull(ethDst);
 
             PiAction.Builder actionBuilder = PiAction.builder();
-            actionBuilder.withParameter(new PiActionParam(PORT, outPort.toLong()));
-            actionBuilder.withParameter(new PiActionParam(SMAC, ethSrc.mac().toBytes()));
-            actionBuilder.withParameter(new PiActionParam(DMAC, ethDst.mac().toBytes()));
+            actionBuilder.withParameter(new PiActionParam(BcmPipelineConstants.PORT, outPort.toLong()));
+            actionBuilder.withParameter(new PiActionParam(BcmPipelineConstants.SMAC, ethSrc.mac().toBytes()));
+            actionBuilder.withParameter(new PiActionParam(BcmPipelineConstants.DMAC, ethDst.mac().toBytes()));
 
             if (mplsLabel != null) {
                 // swap_mpls(PortNum port, EthernetAddress smac, EthernetAddress dmac, bit<20> mpls_label)
                 actionBuilder.withParameter(new PiActionParam(BcmPipelineConstants.MPLS_LABEL, mplsLabel.label().toInt()));
                 return actionBuilder
-                    .withId(L3_FWD_SWAP_MPLS)
+                    .withId(BcmPipelineConstants.L3_FWD_SWAP_MPLS)
                     .build();
             }
             // decap_mpls(PortNum port, EthernetAddress smac, EthernetAddress dmac)
             return actionBuilder
-                .withId(L3_FWD_DECAP_MPLS)
+                .withId(BcmPipelineConstants.L3_FWD_DECAP_MPLS)
                 .build();
         }
 
@@ -186,8 +185,8 @@ public class BcmPipelineInterpreter extends AbstractHandlerBehaviour implements 
             throws PiInterpreterException {
         try {
             PiPacketMetadata metadata = PiPacketMetadata.builder()
-                    .withId(HDR_PACKET_OUT_EGRESS_PHYSICAL_PORT)
-                    .withValue(ImmutableByteSequence.copyFrom(portNumber).fit(PORT_BITWIDTH)).build();
+                    .withId(BcmPipelineConstants.HDR_PACKET_OUT_EGRESS_PHYSICAL_PORT)
+                    .withValue(ImmutableByteSequence.copyFrom(portNumber).fit(BcmPipelineConstants.PORT_BITWIDTH)).build();
             return PiPacketOperation.builder()
                     .withType(PACKET_OUT)
                     .withData(copyFrom(data))
@@ -264,7 +263,7 @@ public class BcmPipelineInterpreter extends AbstractHandlerBehaviour implements 
         // Make sure port number can fit in v1model port metadata bitwidth.
         final ImmutableByteSequence portBytes;
         try {
-            portBytes = copyFrom(portNumber).fit(PORT_BITWIDTH);
+            portBytes = copyFrom(portNumber).fit(BcmPipelineConstants.PORT_BITWIDTH);
         } catch (ImmutableByteSequence.ByteSequenceTrimException e) {
             throw new PiInterpreterException(format(
                     "Port number %d too big, %s", portNumber, e.getMessage()));
@@ -317,7 +316,7 @@ public class BcmPipelineInterpreter extends AbstractHandlerBehaviour implements 
         // 2. Get ingress port
         final ImmutableByteSequence portBytes;
         try {
-            portBytes = inportMetadata.get().value().fit(PORT_BITWIDTH);
+            portBytes = inportMetadata.get().value().fit(BcmPipelineConstants.PORT_BITWIDTH);
         } catch (ImmutableByteSequence.ByteSequenceTrimException e) {
             throw new PiInterpreterException(e.getMessage());
         }

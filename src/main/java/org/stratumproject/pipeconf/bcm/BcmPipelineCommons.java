@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package org.onosproject.stratum.pipeconf;
+package org.stratumproject.pipeconf.bcm;
 
 import org.onlab.packet.EthType;
 import org.onlab.packet.MacAddress;

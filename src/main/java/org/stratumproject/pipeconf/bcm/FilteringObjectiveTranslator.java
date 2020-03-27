@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package org.onosproject.stratum.pipeconf;
+package org.stratumproject.pipeconf.bcm;
 
 import org.onosproject.net.DeviceId;
 import org.onosproject.net.flow.DefaultTrafficSelector;
@@ -13,7 +13,7 @@ import org.onosproject.net.flow.TrafficSelector;
 import org.onosproject.net.flow.criteria.*;
 import org.onosproject.net.flowobjective.FilteringObjective;
 
-import static org.onosproject.stratum.pipeconf.BcmPipelineUtils.criterion;
+import static org.stratumproject.pipeconf.bcm.BcmPipelineUtils.criterion;
 
 /**
  * The translator that translates FilteringObjective to flows

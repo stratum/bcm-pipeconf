@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package org.onosproject.stratum.pipeconf;
+package org.stratumproject.pipeconf.bcm;
 
 import org.onlab.packet.VlanId;
 import org.onosproject.net.DeviceId;
@@ -26,9 +26,6 @@ import org.onosproject.net.pi.runtime.PiGroupKey;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
-
-import static org.onosproject.stratum.pipeconf.BcmPipelineConstants.*;
-import static org.onosproject.stratum.pipeconf.BcmPipelineUtils.*;
 
 /**
  * The translator that translates NextObjective to
@@ -70,7 +67,7 @@ public class NextObjectiveTranslator extends AbstractObjectiveTranslator<NextObj
     private void simpleNext(NextObjective obj,
                             ObjectiveTranslation.Builder resultBuilder) throws BcmPipelinerException {
         // Next objective for will be hashed next is it's L3
-        if (isL3NextObj(obj)) {
+        if (BcmPipelineUtils.isL3NextObj(obj)) {
             hashedNext(obj, resultBuilder);
         }
 
@@ -79,17 +76,17 @@ public class NextObjectiveTranslator extends AbstractObjectiveTranslator<NextObj
 
     private void hashedNext(NextObjective obj,
                             ObjectiveTranslation.Builder resultBuilder) throws BcmPipelinerException {
-        if (isMplsOp(obj, L2ModificationInstruction.L2SubType.MPLS_PUSH)) {
+        if (BcmPipelineUtils.isMplsOp(obj, L2ModificationInstruction.L2SubType.MPLS_PUSH)) {
             // Push MPLS
-            resultBuilder.addGroup(buildL3HashedGroup(obj, L3_FWD_TABLE, L3_FWD_WCMP_ACTION_PROFILE));
-        } else if(isMplsOp(obj, L2ModificationInstruction.L2SubType.MPLS_POP) ||
-                  isMplsOp(obj, L2ModificationInstruction.L2SubType.MPLS_LABEL) ||
+            resultBuilder.addGroup(buildL3HashedGroup(obj, BcmPipelineConstants.L3_FWD_TABLE, BcmPipelineConstants.L3_FWD_WCMP_ACTION_PROFILE));
+        } else if(BcmPipelineUtils.isMplsOp(obj, L2ModificationInstruction.L2SubType.MPLS_POP) ||
+                  BcmPipelineUtils.isMplsOp(obj, L2ModificationInstruction.L2SubType.MPLS_LABEL) ||
                   withMplsSegmentRoutingMeta(obj.meta())) {
             // Swap or pop MPLS
-            resultBuilder.addGroup(buildL3HashedGroup(obj, L3_MPLS_TABLE, L3_FWD_MPLS_ECMP_ACTION_PROFILE));
+            resultBuilder.addGroup(buildL3HashedGroup(obj, BcmPipelineConstants.L3_MPLS_TABLE, BcmPipelineConstants.L3_FWD_MPLS_ECMP_ACTION_PROFILE));
         } else {
             // Normal L3 next
-            resultBuilder.addGroup(buildL3HashedGroup(obj, L3_FWD_TABLE, L3_FWD_WCMP_ACTION_PROFILE));
+            resultBuilder.addGroup(buildL3HashedGroup(obj, BcmPipelineConstants.L3_FWD_TABLE, BcmPipelineConstants.L3_FWD_WCMP_ACTION_PROFILE));
         }
     }
 

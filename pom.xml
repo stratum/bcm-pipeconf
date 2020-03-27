@@ -15,17 +15,17 @@ SPDX-License-Identifier: Apache-2.0
         <version>2.2.1</version>
     </parent>
 
-    <groupId>org.onosproject</groupId>
-    <artifactId>stratum-bcm-pipeconf</artifactId>
+    <groupId>org.stratumproject</groupId>
+    <artifactId>bcm-pipeconf</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>bundle</packaging>
 
     <description>Stratum BCM Pipeconf</description>
-    <url>http://www.onosproject.org</url>
+    <url>https://stratumproject.org</url>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <onos.app.name>org.onosproject.stratum-bcm-pipeconf</onos.app.name>
+        <onos.app.name>org.stratumproject.bcm-pipeconf</onos.app.name>
         <onos.app.title>Stratum BCM Pipeconf</onos.app.title>
         <onos.app.origin>opennetworking.org</onos.app.origin>
         <onos.app.category>Traffic Steering</onos.app.category>

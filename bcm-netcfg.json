@@ -4,7 +4,7 @@
       "basic": {
         "managementAddress": "grpc://10.0.0.1:28000?device_id=1",
         "driver": "stratum-fpm",
-        "pipeconf": "org.onosproject.pipelines.stratum.bcm"
+        "pipeconf": "org.stratumproject.pipelines.bcm"
       }
     }
   }
