@@ -20,6 +20,7 @@ import java.util.stream.Collectors;
 
 import static org.onosproject.net.flow.criteria.Criterion.Type.*;
 import static org.slf4j.LoggerFactory.getLogger;
+import static org.stratumproject.pipeconf.bcm.BcmPipelineCommons.*;
 
 /**
  * Forwarding function types (FFTs) that can represent a given forwarding
@@ -47,7 +48,7 @@ public class ForwardingFunctionType {
             Type.L2_UNICAST,
             Sets.newHashSet(VLAN_VID, ETH_DST), // Expected criterion types.
             Collections.emptyList(), // Criteria to match.
-            Lists.newArrayList(BcmPipelineCommons.MATCH_ETH_DST_NONE)); // Criteria NOT to match.
+            Lists.newArrayList(MATCH_ETH_DST_NONE)); // Criteria NOT to match.
 
     /**
      * L2 broadcast.
@@ -55,7 +56,7 @@ public class ForwardingFunctionType {
     public static final ForwardingFunctionType L2_BROADCAST = new ForwardingFunctionType(
             Type.L2_BROADCAST,
             Sets.newHashSet(VLAN_VID, ETH_DST),
-            Lists.newArrayList(BcmPipelineCommons.MATCH_ETH_DST_NONE),
+            Lists.newArrayList(MATCH_ETH_DST_NONE),
             Collections.emptyList());
 
     public static final ForwardingFunctionType L2_BROADCAST_ALIAS = new ForwardingFunctionType(
@@ -71,7 +72,7 @@ public class ForwardingFunctionType {
     public static final ForwardingFunctionType IPV4_ROUTING = new ForwardingFunctionType(
             Type.IPV4_ROUTING,
             Sets.newHashSet(ETH_TYPE, IPV4_DST),
-            Lists.newArrayList(BcmPipelineCommons.MATCH_ETH_TYPE_IPV4),
+            Lists.newArrayList(MATCH_ETH_TYPE_IPV4),
             Collections.emptyList());
 
     /**
@@ -80,7 +81,7 @@ public class ForwardingFunctionType {
     public static final ForwardingFunctionType IPV4_ROUTING_MULTICAST = new ForwardingFunctionType(
             Type.IPV4_ROUTING_MULTICAST,
             Sets.newHashSet(ETH_TYPE, VLAN_VID, IPV4_DST),
-            Lists.newArrayList(BcmPipelineCommons.MATCH_ETH_TYPE_IPV4),
+            Lists.newArrayList(MATCH_ETH_TYPE_IPV4),
             Collections.emptyList());
 
     /**
@@ -89,7 +90,7 @@ public class ForwardingFunctionType {
     public static final ForwardingFunctionType IPV6_ROUTING = new ForwardingFunctionType(
             Type.IPV6_ROUTING,
             Sets.newHashSet(ETH_TYPE, IPV6_DST),
-            Lists.newArrayList(BcmPipelineCommons.MATCH_ETH_TYPE_IPV6),
+            Lists.newArrayList(MATCH_ETH_TYPE_IPV6),
             Collections.emptyList());
 
     /**
@@ -98,7 +99,7 @@ public class ForwardingFunctionType {
     public static final ForwardingFunctionType IPV6_ROUTING_MULTICAST = new ForwardingFunctionType(
             Type.IPV6_ROUTING_MULTICAST,
             Sets.newHashSet(ETH_TYPE, VLAN_VID, IPV6_DST),
-            Lists.newArrayList(BcmPipelineCommons.MATCH_ETH_TYPE_IPV6),
+            Lists.newArrayList(MATCH_ETH_TYPE_IPV6),
             Collections.emptyList());
 
     /**
@@ -107,7 +108,7 @@ public class ForwardingFunctionType {
     public static final ForwardingFunctionType MPLS_SEGMENT_ROUTING = new ForwardingFunctionType(
             Type.MPLS_SEGMENT_ROUTING,
             Sets.newHashSet(ETH_TYPE, MPLS_LABEL, MPLS_BOS),
-            Lists.newArrayList(BcmPipelineCommons.MATCH_ETH_TYPE_MPLS, BcmPipelineCommons.MATCH_MPLS_BOS_TRUE),
+            Lists.newArrayList(MATCH_ETH_TYPE_MPLS, MATCH_MPLS_BOS_TRUE),
             Collections.emptyList());
 
     /**
@@ -116,7 +117,7 @@ public class ForwardingFunctionType {
     public static final ForwardingFunctionType PSEUDO_WIRE = new ForwardingFunctionType(
             Type.PSEUDO_WIRE,
             Sets.newHashSet(ETH_TYPE, MPLS_LABEL, MPLS_BOS),
-            Lists.newArrayList(BcmPipelineCommons.MATCH_ETH_TYPE_MPLS, BcmPipelineCommons.MATCH_MPLS_BOS_FALSE),
+            Lists.newArrayList(MATCH_ETH_TYPE_MPLS, MATCH_MPLS_BOS_FALSE),
             Collections.emptyList());
 
     /**

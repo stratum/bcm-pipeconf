@@ -27,6 +27,7 @@ import java.util.stream.Collectors;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static java.lang.String.format;
 import static org.onosproject.net.group.DefaultGroupBucket.createCloneGroupBucket;
+import static org.stratumproject.pipeconf.bcm.BcmPipelineConstants.*;
 
 /**
  * The translator that translates ForwardingObjective to
@@ -150,7 +151,7 @@ public class ForwardingObjectiveTranslator
                 .setOutput(outputPort)
                 .build();
 
-        resultBuilder.addFlowRule(flowRule(obj, BcmPipelineConstants.L2_UNICAST_TABLE, selector, treatment));
+        resultBuilder.addFlowRule(flowRule(obj, L2_UNICAST_TABLE, selector, treatment));
     }
 
     private void ipv4RoutingRule(ForwardingObjective obj, Set<Criterion> criteriaWithMeta,
@@ -166,7 +167,7 @@ public class ForwardingObjectiveTranslator
         checkNotNull(ipDstCriterion);
         TrafficSelector selector = DefaultTrafficSelector.builder()
             .matchIPDst(ipDstCriterion.ip())
-            .matchPi(PiCriterion.builder().matchExact(BcmPipelineConstants.LOCAL_METADATA_VRF_ID, BcmPipelineConstants.DEFAULT_VRF_ID).build())
+            .matchPi(PiCriterion.builder().matchExact(LOCAL_METADATA_VRF_ID, DEFAULT_VRF_ID).build())
             .build();
 
         TrafficTreatment treatment = actionProfileGroupTreatmentFromNextId(obj.nextId());
@@ -174,7 +175,7 @@ public class ForwardingObjectiveTranslator
         // l3_fwd_table
         resultBuilder.addFlowRule(flowRule(
                 obj,
-                BcmPipelineConstants.L3_FWD_TABLE,
+                L3_FWD_TABLE,
                 selector,
                 treatment
         ));
@@ -198,7 +199,7 @@ public class ForwardingObjectiveTranslator
                 .build();
         resultBuilder.addFlowRule(flowRule(
                 obj,
-                BcmPipelineConstants.L3_MPLS_TABLE,
+                L3_MPLS_TABLE,
                 selector,
                 treatment
         ));
@@ -233,8 +234,8 @@ public class ForwardingObjectiveTranslator
             if (obj.treatment().clearedDeferred()) {
                 // Send to CPU
                 puntAction = PiAction.builder()
-                        .withId(BcmPipelineConstants.PUNT_SET_QUEUE_AND_SEND_TO_CPU)
-                        .withParameter(BcmPipelineConstants.DEFAULT_QUEUE_ID)
+                        .withId(PUNT_SET_QUEUE_AND_SEND_TO_CPU)
+                        .withParameter(DEFAULT_QUEUE_ID)
                         .build();
             } else {
                 // Action is SET_CLONE_SESSION_ID
@@ -249,15 +250,15 @@ public class ForwardingObjectiveTranslator
 
                 // Clone to CPU
                 puntAction = PiAction.builder()
-                        .withId(BcmPipelineConstants.PUNT_SET_QUEUE_AND_CLONE_TO_CPU)
-                        .withParameter(BcmPipelineConstants.DEFAULT_QUEUE_ID)
+                        .withId(PUNT_SET_QUEUE_AND_CLONE_TO_CPU)
+                        .withParameter(DEFAULT_QUEUE_ID)
                         .build();
             }
         } else {
             // Set egress port
             puntAction = PiAction.builder()
-                    .withId(BcmPipelineConstants.PUNT_SET_EGRESS_PORT)
-                    .withParameter(new PiActionParam(BcmPipelineConstants.PORT, outPort.toLong()))
+                    .withId(PUNT_SET_EGRESS_PORT)
+                    .withParameter(new PiActionParam(PORT, outPort.toLong()))
                     .build();
         }
 
@@ -265,7 +266,7 @@ public class ForwardingObjectiveTranslator
             .piTableAction(puntAction)
             .build();
 
-        resultBuilder.addFlowRule(flowRule(obj, BcmPipelineConstants.PUNT_TABLE, obj.selector(), treatment));
+        resultBuilder.addFlowRule(flowRule(obj, PUNT_TABLE, obj.selector(), treatment));
     }
 
     private DefaultGroupDescription createCloneGroup(
