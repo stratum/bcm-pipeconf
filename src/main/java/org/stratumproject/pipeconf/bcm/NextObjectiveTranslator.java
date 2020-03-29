@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package org.onosproject.stratum.pipeconf;
+package org.stratumproject.pipeconf.bcm;
 
 import org.onlab.packet.VlanId;
 import org.onosproject.net.DeviceId;
@@ -27,8 +27,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-import static org.onosproject.stratum.pipeconf.BcmPipelineConstants.*;
-import static org.onosproject.stratum.pipeconf.BcmPipelineUtils.*;
+import static org.stratumproject.pipeconf.bcm.BcmPipelineConstants.*;
+import static org.stratumproject.pipeconf.bcm.BcmPipelineUtils.*;
 
 /**
  * The translator that translates NextObjective to
@@ -101,7 +101,7 @@ public class NextObjectiveTranslator extends AbstractObjectiveTranslator<NextObj
                                                        PiTableId tableId,
                                                        PiActionProfileId actionProfileId) {
         final VlanIdCriterion vlanIdCriterion = obj.meta() == null ? null
-                : (VlanIdCriterion) BcmPipelineUtils.criterion(obj.meta().criteria(), Criterion.Type.VLAN_VID);
+                : (VlanIdCriterion) criterion(obj.meta().criteria(), Criterion.Type.VLAN_VID);
         final VlanId vlanId = vlanIdCriterion == null ? null : vlanIdCriterion.vlanId();
 
         final List<TrafficTreatment> piTreatments = obj.nextTreatments().stream()

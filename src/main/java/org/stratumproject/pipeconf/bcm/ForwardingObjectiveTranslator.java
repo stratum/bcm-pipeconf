@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package org.onosproject.stratum.pipeconf;
+package org.stratumproject.pipeconf.bcm;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
@@ -27,8 +27,7 @@ import java.util.stream.Collectors;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static java.lang.String.format;
 import static org.onosproject.net.group.DefaultGroupBucket.createCloneGroupBucket;
-import static org.onosproject.stratum.pipeconf.BcmPipelineConstants.*;
-import static org.onosproject.stratum.pipeconf.BcmPipelineConstants.PORT;
+import static org.stratumproject.pipeconf.bcm.BcmPipelineConstants.*;
 
 /**
  * The translator that translates ForwardingObjective to
@@ -152,7 +151,7 @@ public class ForwardingObjectiveTranslator
                 .setOutput(outputPort)
                 .build();
 
-        resultBuilder.addFlowRule(flowRule(obj, BcmPipelineConstants.L2_UNICAST_TABLE, selector, treatment));
+        resultBuilder.addFlowRule(flowRule(obj, L2_UNICAST_TABLE, selector, treatment));
     }
 
     private void ipv4RoutingRule(ForwardingObjective obj, Set<Criterion> criteriaWithMeta,
@@ -267,7 +266,7 @@ public class ForwardingObjectiveTranslator
             .piTableAction(puntAction)
             .build();
 
-        resultBuilder.addFlowRule(flowRule(obj, BcmPipelineConstants.PUNT_TABLE, obj.selector(), treatment));
+        resultBuilder.addFlowRule(flowRule(obj, PUNT_TABLE, obj.selector(), treatment));
     }
 
     private DefaultGroupDescription createCloneGroup(

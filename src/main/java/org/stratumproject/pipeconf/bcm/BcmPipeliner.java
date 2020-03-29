@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package org.onosproject.stratum.pipeconf;
+package org.stratumproject.pipeconf.bcm;
 
 import com.google.common.collect.ImmutableList;
 import org.onlab.util.KryoNamespace;
@@ -35,7 +35,7 @@ import java.util.concurrent.locks.ReentrantLock;
 import java.util.stream.Collectors;
 
 import static java.lang.String.format;
-import static org.onosproject.stratum.pipeconf.BcmPipelineUtils.outputPort;
+import static org.stratumproject.pipeconf.bcm.BcmPipelineUtils.outputPort;
 import static org.slf4j.LoggerFactory.getLogger;
 import static com.google.common.base.Preconditions.checkNotNull;
 

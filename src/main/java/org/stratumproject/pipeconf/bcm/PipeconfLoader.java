@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package org.onosproject.stratum.pipeconf;
+package org.stratumproject.pipeconf.bcm;
 
 import org.onosproject.core.CoreService;
 import org.onosproject.net.behaviour.Pipeliner;
@@ -25,9 +25,9 @@ import java.net.URL;
 @Component(immediate = true, service = PipeconfLoader.class)
 public class PipeconfLoader {
 
-    public static final String PIPELINE_APP_NAME = "org.onosproject.stratum-bcm-pipeconf";
+    public static final String PIPELINE_APP_NAME = "org.stratumproject.bcm-pipeconf";
     private static final PiPipeconfId PIPECONF_ID =
-            new PiPipeconfId("org.onosproject.pipelines.stratum.bcm");
+            new PiPipeconfId("org.stratumproject.pipelines.bcm");
 
     private static final Logger log =
             LoggerFactory.getLogger(PipeconfLoader.class.getName());

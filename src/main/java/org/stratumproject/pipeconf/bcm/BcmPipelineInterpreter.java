@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package org.onosproject.stratum.pipeconf;
+package org.stratumproject.pipeconf.bcm;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
@@ -45,8 +45,8 @@ import static org.onosproject.net.flow.instructions.Instruction.Type.OUTPUT;
 import static org.onosproject.net.flow.instructions.L2ModificationInstruction.L2SubType.*;
 import static org.onosproject.net.flow.instructions.L2ModificationInstruction.L2SubType.MPLS_LABEL;
 import static org.onosproject.net.pi.model.PiPacketOperationType.PACKET_OUT;
-import static org.onosproject.stratum.pipeconf.BcmPipelineConstants.*;
-import static org.onosproject.stratum.pipeconf.BcmPipelineUtils.l2Instruction;
+import static org.stratumproject.pipeconf.bcm.BcmPipelineConstants.*;
+import static org.stratumproject.pipeconf.bcm.BcmPipelineUtils.l2Instruction;
 
 /**
  * The pipeline interpreter of BCM pipeline.

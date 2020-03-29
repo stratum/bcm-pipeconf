@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package org.onosproject.stratum.pipeconf;
+package org.stratumproject.pipeconf.bcm;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
@@ -19,8 +19,8 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import static org.onosproject.net.flow.criteria.Criterion.Type.*;
-import static org.onosproject.stratum.pipeconf.BcmPipelineCommons.*;
 import static org.slf4j.LoggerFactory.getLogger;
+import static org.stratumproject.pipeconf.bcm.BcmPipelineCommons.*;
 
 /**
  * Forwarding function types (FFTs) that can represent a given forwarding
