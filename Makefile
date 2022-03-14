@@ -11,8 +11,8 @@ curr_dir := $(patsubst %/,%,$(dir $(mkfile_path)))
 p4_src_dir := $(STRATUM_ROOT)/stratum/pipelines/main
 p4_build_dir := src/main/resources
 
-pipeconf_app_name := org.onosproject.stratum-bcm-pipeconf
-pipeconf_oar_file := $(shell ls -1 ${curr_dir}/target/stratum-bcm-pipeconf-*.oar 2> /dev/null)
+pipeconf_app_name := org.stratumproject.bcm-pipeconf
+pipeconf_oar_file := $(shell ls -1 ${curr_dir}/target/bcm-pipeconf-*.oar 2> /dev/null)
 
 curr_dir_sha := $(shell echo -n "$(curr_dir)" | shasum | cut -c1-7)
 app_build_container_name := app-build-${curr_dir_sha}
